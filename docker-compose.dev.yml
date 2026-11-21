@@ -1,0 +1,26 @@
+# Solo para DESARROLLO (make dev). La entrega usa unicamente docker-compose.yml.
+services:
+  backend:
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app/backend
+    environment:
+      # El correo va a Mailpit: nadie envia correos reales mientras prueba.
+      - SMTP_HOST=mailpit
+      - SMTP_PORT=1025
+      - SMTP_USER=
+      - SMTP_PASSWORD=
+      - SMTP_FROM=dev@localhost
+    depends_on:
+      mailpit:
+        condition: service_started
+
+  frontend:
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+
+  mailpit:
+    image: axllent/mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025"   # bandeja de entrada: http://localhost:8025

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <main>
+    <section class="card top">
+      <div>
+        <h1>Hola mundo</h1>
+        <span>Sesión de <strong id="who"></strong></span>
+      </div>
+      <div class="row">
+        <a class="btn btn-main" href="/test-api.html">Test API</a>
+        <button id="logout" class="btn-danger" type="button">Cerrar sesión</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Chat grupal</h2>
+      <div id="log" role="log" aria-live="polite" tabindex="0" aria-label="Mensajes del chat"></div>
+      <form id="chat-form">
+        <input id="chat-input" maxlength="500" autocomplete="off" aria-label="Mensaje" placeholder="Escribe un mensaje">
+        <button class="btn-main" type="submit">Enviar</button>
+      </form>
+      <p id="chat-status" class="msg" role="status"></p>
+      <button id="reconnect" type="button" hidden>Reconectar</button>
+    </section>
+  </main>
+  <script src="/js/shared/api.js"></script>
+  <script src="/js/pages/home.js"></script>
+</body>
+</html>

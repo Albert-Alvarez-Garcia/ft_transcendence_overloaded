@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test API</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <main>
+    <section class="card">
+      <h1>Test API</h1>
+      <p>Valor actual de <code>test</code> en tu usuario:</p>
+      <p id="value" class="value" aria-live="polite">…</p>
+      <div class="row">
+        <a class="btn" href="/home.html">Volver al home</a>
+        <button class="btn-main" type="button" data-action="create">Crear</button>
+        <button type="button" data-action="read">Consultar</button>
+        <button type="button" data-action="update">Modificar</button>
+        <button class="btn-danger" type="button" data-action="delete">Borrar</button>
+      </div>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="/js/shared/api.js"></script>
+  <script src="/js/pages/test-api.js"></script>
+</body>
+</html>

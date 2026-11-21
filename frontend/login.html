@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <main>
+    <section class="card">
+      <h1>Bienvenido</h1>
+      <div class="tabs" role="tablist">
+        <button id="tab-login" type="button" role="tab" aria-selected="true">Entrar</button>
+        <button id="tab-register" type="button" role="tab" aria-selected="false">Registro</button>
+      </div>
+
+      <form id="login-form">
+        <label>Usuario o correo<input name="identifier" autocomplete="username" required></label>
+        <label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="btn-main btn-block" type="submit">Entrar</button>
+      </form>
+
+      <form id="register-form" hidden>
+        <label>Usuario<input name="username" autocomplete="username" minlength="3" maxlength="20" required></label>
+        <label>Correo<input name="email" type="email" autocomplete="email" required></label>
+        <label>Contraseña (mín. 8)<input name="password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></label>
+        <button class="btn-main btn-block" type="submit">Crear cuenta</button>
+      </form>
+
+      <a class="btn btn-block" href="/api/auth/42/login">Entrar con 42</a>
+      <p id="msg" class="msg" role="status" aria-live="polite"></p>
+      <button id="resend" type="button" hidden>Reenviar correo de confirmación</button>
+    </section>
+  </main>
+  <script src="/js/shared/api.js"></script>
+  <script src="/js/pages/login.js"></script>
+</body>
+</html>
