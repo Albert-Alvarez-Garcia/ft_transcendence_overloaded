@@ -1,3 +1,8 @@
+Enlace al tablero trello de control de historias 
+
+Markdown
+https://trello.com/invite/b/6b015c9b3982be93454136b4/ATTI39abd4e755c97100ff883415cf0e1d42F9105D08/fttranscendenceoverloaded
+
 # transcendence_starter_pack
 
 Base web segura y mínima para arrancar un proyecto: **FastAPI + PostgreSQL + nginx (HTTPS) + HTML/CSS/JS puros**, todo en Docker.
