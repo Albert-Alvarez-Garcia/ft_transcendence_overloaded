@@ -26,10 +26,3 @@ input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;backgroun
 #chat-form{display:flex;gap:8px;margin-top:10px}
 #chat-form input{flex:1;min-width:0}
 .value{font-size:1.6rem;font-weight:700;margin:6px 0}
-.site-footer{text-align:center;font-size:.85rem;color:var(--muted)}
-.site-footer a{color:var(--muted)}
-.legal h1{font-size:1.6rem}
-.legal h2{font-size:1.1rem;margin:20px 0 6px}
-.legal p,.legal li{overflow-wrap:anywhere}
-.legal .meta{color:var(--muted);font-size:.9rem}
-.legal button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:var(--accink)}

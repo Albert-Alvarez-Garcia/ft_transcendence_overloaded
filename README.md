@@ -1,8 +1,3 @@
-Enlace al tablero trello de control de historias 
-
-Markdown
-https://trello.com/invite/b/6b015c9b3982be93454136b4/ATTI39abd4e755c97100ff883415cf0e1d42F9105D08/fttranscendenceoverloaded
-
 # transcendence_starter_pack
 
 Base web segura y mínima para arrancar un proyecto: **FastAPI + PostgreSQL + nginx (HTTPS) + HTML/CSS/JS puros**, todo en Docker.
@@ -19,6 +14,7 @@ El contrato de la API está en [`docs/API.md`](docs/API.md).
 - **HTTPS con certificado autofirmado**, redirección 8080 → 8443 y cabeceras de seguridad (CSP incluida).
 - **Consola del navegador limpia**: los errores esperados responden HTTP 200 con `{"ok": false, "error": "..."}`.
 - **Modo desarrollo** con recarga automática y correo falso (Mailpit), y una **prueba de humo** (`make smoke`).
+- **Salas de juego genéricas** (WebSocket) con un juego de demostración y pruebas unitarias: base para cualquier juego o proceso multiusuario.
 
 ## Qué NO incluye (a propósito)
 Panel de administración, historial del chat, recuperación de contraseña, 2FA, avatares, migraciones de esquema ni tests automáticos completos.
@@ -123,7 +119,9 @@ backend/            FastAPI
   db.py             pool de conexiones a Postgres
   security.py       contraseñas, token de sesión, límites, comprobación de Origin
   mailer.py         envío del correo de confirmación
-  routers/          auth.py · test_api.py · chat.py
+  game_rooms.py     capa genérica de salas (sin dependencias de FastAPI)
+  games/            un fichero por juego (demo_race.py es la plantilla)
+  routers/          auth.py · test_api.py · chat.py · rooms.py
 frontend/           páginas estáticas servidas por nginx
   *.html            login · verify · home · test-api
   css/main.css
@@ -133,10 +131,26 @@ database/init.sql   esquema: users, sessions
 docker/             nginx.conf y Dockerfile de nginx
 scripts/smoke.sh    prueba de humo
 certs/              certificado autofirmado (se genera; no se versiona)
-docs/API.md         contrato de la API
+docs/API.md         contrato de la API (HTTP)
+docs/WS.md          contrato de las salas de juego (WebSocket)
+tests/              pruebas unitarias de las salas
 docker-compose.yml       entrega
 docker-compose.dev.yml   desarrollo (recarga + Mailpit)
 ```
+
+## Salas de juego
+Capa genérica: crear sala con código, lobby, anfitrión, fases (`lobby` → `playing` → `finished`), reconexión, chat de sala y gancho para guardar resultados.
+Cada juego es un fichero en `backend/games/` que implementa unos pocos métodos. Todo está descrito en [`docs/WS.md`](docs/WS.md).
+
+- Pantalla de prueba: `https://localhost:8443/rooms.html` (abre dos pestañas con usuarios distintos).
+- Pruebas unitarias, sin Docker: `python3 -m unittest discover -s tests -t . -v`
+
+## Limitaciones conocidas
+Aceptadas de forma consciente (detalle completo en [`docs/WS.md`](docs/WS.md)):
+- **Las salas y partidas en curso viven en la memoria del backend:** si se reinicia, se pierden. Solo se guardan los resultados finales, y solo si `record_match` los guarda.
+- **Un solo proceso:** no usar `uvicorn --workers` mayor que 1 ni varias réplicas del backend.
+- **Salas públicas y sin contraseña**, sin espectadores, 200 salas como máximo.
+- Los límites de intentos de acceso también viven en memoria y se reinician con el backend.
 
 ## Seguridad: qué está resuelto
 Contraseñas con bcrypt · cookie `HttpOnly`/`Secure`/`SameSite` · sesión revocable en base de datos ·

@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 
 from backend import config, db
-from backend.routers import auth, chat, test_api
+from backend.routers import auth, chat, test_api, rooms, test_api
 
 
 @asynccontextmanager
@@ -32,3 +32,4 @@ def health():
 app.include_router(auth.router)
 app.include_router(test_api.router)
 app.include_router(chat.router)
+app.include_router(rooms.router)

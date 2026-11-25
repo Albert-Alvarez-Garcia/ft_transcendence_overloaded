@@ -16,7 +16,11 @@
     not_created: 'Primero hay que crear el valor.',
     oauth_failed: 'No se pudo entrar con 42. Inténtalo de nuevo.',
     oauth_unavailable: 'El acceso con 42 no está configurado.',
-    network: 'No hay conexión con el servidor.'
+    network: 'No hay conexión con el servidor.',
+    unknown_game: 'Juego desconocido.',
+    too_many_rooms: 'Hay demasiadas salas abiertas.',
+    invalid_settings: 'Ajustes de sala no válidos.',
+    room_not_found: 'La sala no existe o ha caducado.'
   };
 
   async function call(method, url, body) {

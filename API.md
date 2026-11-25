@@ -24,6 +24,8 @@ Base: `https://localhost:8443`. Formato: JSON. Autenticación: cookie `cb_sessio
 | `invalid_or_expired` | Token de confirmación inválido o caducado |
 | `unauthenticated` | No hay sesión válida |
 | `already_exists` / `not_created` | Estado incorrecto en `/api/test` |
+| `unknown_game` / `too_many_rooms` / `invalid_settings` | No se puede crear la sala |
+| `room_not_found` | La sala no existe o ha caducado |
 
 Límites por IP: login 10 intentos / 5 min · registro 5 / 10 min · reenvío de correo 3 / 10 min.
 
@@ -81,6 +83,26 @@ Opera sobre `users.test`: `null` (no creado), `true` o `false`. Sin sesión: `{"
 - **Límite:** 5 mensajes cada 3 segundos por conexión; al superarlo llega un aviso `system`.
 - **Cierre:** el servidor acepta la conexión y la cierra con código `4401` (sin sesión, o sesión cerrada) o `4403` (origen no permitido).
 - La sala es única y global, y solo vive en memoria: no hay historial.
+
+## Salas de juego (requieren sesión)
+Capa genérica para juegos y procesos multiusuario. Los mensajes en tiempo real están en [`WS.md`](WS.md).
+Sin sesión, todos devuelven `{"ok": false, "error": "unauthenticated"}`.
+
+### `GET /api/games`
+`{"ok": true, "games": [{"id", "name", "minPlayers", "maxPlayers", "defaultSettings"}]}`
+
+### `GET /api/rooms?game=<id>`
+Salas en el lobby con al menos un jugador. `game` es opcional.
+`{"ok": true, "rooms": [{"code", "game", "phase", "players", "maxPlayers", "host"}]}`
+
+### `POST /api/rooms`
+Cuerpo: `{"game": "demo_race", "maxPlayers": 4, "settings": {}}` (`maxPlayers` y `settings` son opcionales; de `settings` solo se aceptan las claves que el juego define, con el mismo tipo).
+Éxito: `{"ok": true, "code": "K7M2Q"}`. Errores: `unknown_game`, `too_many_rooms`, `invalid_settings`.
+La sala se elimina sola si nadie entra en 60 segundos.
+
+### `GET /api/rooms/{code}`
+Éxito: `{"ok": true, "room": {"code", "game", "phase", "players", "maxPlayers", "host"}}`. Error: `room_not_found`.
+Conviene llamarlo antes de abrir el WebSocket.
 
 ## Base de datos
 - **`users`**: `id`, `username` (único sin distinguir mayúsculas), `email` (único), `password_hash` (NULL si solo usa 42), `email_verified`, `verify_token_hash`, `verify_expires`, `fortytwo_id`, `test`, `created_at`.

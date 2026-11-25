@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Salas de juego</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <main>
+    <section id="lobby-view" class="card">
+      <h1>Salas de juego</h1>
+      <p>Pantalla de prueba de la capa de salas. Abre dos pestañas (o dos navegadores) con usuarios distintos.</p>
+      <div class="row">
+        <select id="game" aria-label="Juego"></select>
+        <button id="create" class="btn-main" type="button">Crear sala</button>
+      </div>
+      <form id="join-form" class="row">
+        <input id="code" maxlength="5" autocomplete="off" aria-label="Código de sala" placeholder="Código">
+        <button type="submit">Unirse</button>
+      </form>
+      <h2>Salas abiertas</h2>
+      <ul id="rooms"></ul>
+      <div class="row">
+        <button id="refresh" type="button">Actualizar</button>
+        <a class="btn" href="/home.html">Volver al home</a>
+      </div>
+      <p id="lobby-msg" class="msg" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="room-view" class="card" hidden>
+      <div class="top">
+        <h1>Sala <span id="room-code"></span></h1>
+        <button id="leave" class="btn-danger" type="button">Salir</button>
+      </div>
+      <ul id="players"></ul>
+      <button id="start" class="btn-main" type="button" hidden>Empezar</button>
+      <p id="room-msg" class="msg" role="status" aria-live="polite"></p>
+
+      <div id="game-area" hidden>
+        <h2>Carrera de clics</h2>
+        <button id="click" class="btn-main" type="button" hidden>¡Clic!</button>
+        <ul id="progress"></ul>
+        <ul id="results"></ul>
+      </div>
+
+      <h2>Chat de la sala</h2>
+      <div id="log" role="log" aria-live="polite" tabindex="0" aria-label="Mensajes de la sala"></div>
+      <form id="chat-form">
+        <input id="chat-input" maxlength="300" autocomplete="off" aria-label="Mensaje" placeholder="Escribe un mensaje">
+        <button class="btn-main" type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <footer class="site-footer"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms of Service</a></footer>
+  </main>
+  <script src="/js/shared/api.js"></script>
+  <script src="/js/shared/room-client.js"></script>
+  <script src="/js/pages/rooms.js"></script>
+</body>
+</html>

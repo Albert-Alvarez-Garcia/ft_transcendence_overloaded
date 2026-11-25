@@ -15,7 +15,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 
 from backend import config, mailer
 from backend.db import cursor
-from backend.routers import chat
+from backend.routers import chat, rooms
 from backend.security import (COOKIE, DUMMY_HASH, Throttle, check_origin, check_password, client_ip,
                               create_session, current_session, end_session, hash_password, make_token,
                               set_cookie)
@@ -155,6 +155,7 @@ async def logout(request: Request):
     if s:
         await run_in_threadpool(end_session, s["sid"])
         await chat.kick(s["sid"])
+        await rooms.kick(s["sid"])
     resp = JSONResponse({"ok": True})
     resp.delete_cookie(COOKIE, path="/")
     return resp
